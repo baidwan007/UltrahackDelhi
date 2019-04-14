@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #bulbOne{
+            width:25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: auto;
+            align-items: center;
+            background-color: aliceblue;
+            padding: 20px;
+        }
+        #bulbOne img{
+            padding-bottom: 20px;
+        }
+        #bulbOne div{
+            padding-bottom: 20px;
+        }
+        #btn{
+            display:flex;
+        }
+        input{
+            width: 100px;
+            height: 40px;
+            font-size: 30px;
+        }
+        body{
+            background-color: cornsilk;
+            position: absolute;
+            width:100%;
+            top:0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            align-self: center;
+        }
+        .example{
+            width:150px;
+            height:150px;
+            padding-top:15px;
+        }
+        #timers{
+            display:flex;
+            justify-content: center;
+        }
+        p{
+            align:center;
+            margin:auto;
+            padding: auto;
+        }
+        #bulbs{
+            display: flex;
+            justify-content: space-between;
+            margin: auto;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #bulbTwo{
+            width:25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: auto;
+            align-items: center;
+            background-color: aliceblue;
+            padding: 20px;
+        }
+        #bulbTwo img{
+            padding-bottom: 20px;
+        }
+        #bulbTwo div{
+            padding-bottom: 20px;
+        }
+        #bulbThree{
+            width:25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: auto;
+            align-items: center;
+            background-color: aliceblue;
+            padding: 20px;
+        }
+        #bulbThree img{
+            padding-bottom: 20px;
+        }
+        #bulbThree div{
+            padding-bottom: 20px;
+        }
+    </style>
+    <script src="jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="TimeCircles.js"></script>
+    <link href="TimeCircles.css" rel="stylesheet">
+</head>
+<body>
+<center><h1>Demo</h1></center>
+<div id="bulbs">
+    <div id="bulbOne">
+        <img id="myImageA" src="pic_bulboff.gif" width="100" height="180">
+        <div id="btn">
+            <input type="button" value="Switch On" onclick="main()" id="startButton">
+            <input type="button" value="Switch Off" onclick="mainStop()" id="stopButton">
+        </div>
+        <div id="chartContainer" style="height: 320px; width:100%;">fgh</div>
+        <div id="timers">
+            <div>
+                <div class="example" id="ex1" data-timer="20"></div>
+                <p>........Time Needed</p>
+            </div>
+            <div >
+                <div class="example" id="ex2" data-timer="60"></div>
+                <p>........Time Available</p>
+            </div>
+
+        </div>
+    </div>
+    <div id="bulbTwo">
+        <img  src="pic_bulboff.gif" width="100" height="180">
+        <div id="btn">
+            <input type="button" value="Switch On" onclick="main()" id="startButton">
+            <input type="button" value="Switch Off" onclick="mainStop()" id="stopButton">
+        </div>
+        <div id="chartContainer" style="height: 320px; width:100%;">fgh</div>
+        <div id="timers">
+            <div>
+                <div class="example" id="ex1" data-timer="20"></div>
+                <p>........Time Needed</p>
+            </div>
+            <div >
+                <div class="example" id="ex2" data-timer="60"></div>
+                <p>........Time Available</p>
+            </div>
+
+        </div>
+    </div>
+    <div id="bulbThree">
+        <img id="myImageA" src="pic_bulboff.gif" width="100" height="180">
+        <div id="btn">
+            <input type="button" value="Switch On" onclick="main()" id="startButton">
+            <input type="button" value="Switch Off" onclick="mainStop()" id="stopButton">
+        </div>
+        <div id="chartContainer" style="height: 320px; width:100%;">fgh</div>
+        <div id="timers">
+            <div>
+                <div class="example" id="ex1" data-timer="20"></div>
+                <p>........Time Needed</p>
+            </div>
+            <div >
+                <div class="example" id="ex2" data-timer="60"></div>
+                <p>........Time Available</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script>
+    var h1=document.getElementsByTagName("h1");
+    h1[0].onclick=function(){
+        clearInterval(refreshId);
+        $("#ex2").TimeCircles().stop();
+    }
+    var dps = []; // dataPoints
+    var chart = new CanvasJS.Chart("chartContainer", {
+        title: {
+            text: "Power Load"
+        },
+        axisY: {
+            includeZero: true
+        },
+        data: [{
+            type: "line",
+            dataPoints: dps
+        }]
+    });
+
+    var xVal = 0;
+    var yVal = 100;
+    var updateInterval = 1000;
+    var dataLength = 20; // number of dataPoints visible at any point
+    dps.push({
+        x: 0,
+        y: 0
+    });
+    chart.render();
+
+    // function changeImageA() {
+    //     var image = document.getElementById('myImageA');
+    //     if (image.src.match("bulbon")) {
+    //         image.src = "pic_bulboff.gif";
+    //     } else {
+    //         image.src = "pic_bulbon.gif";
+    //     }
+    // }
+
+
+    function schedule(a) {
+        var image = document.getElementById('myImageA');
+        console.log("11111111111111111111"+a);
+        if(a==1){
+            image.src = "pic_bulbon.gif";
+            $("#ex1").TimeCircles().start();
+        }
+        else{
+            image.src = "pic_bulboff.gif"
+            $("#ex1").TimeCircles().stop();
+        }
+    }
+
+    function resolveAfter5Seconds() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve('5sec');
+            }, 5000);
+        });
+    }
+    function resolveAfter3Seconds() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve('5sec');
+            }, 3000);
+        });
+    }
+    function resolveAfter10Seconds() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve('5sec');
+            }, 10000);
+        });
+    }
+    function resolveAfter1Seconds() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve('1 sec');
+            }, 1000);
+        });
+    }
+
+    async function schedulerMethod(state) {
+        schedule(state);
+        // var result = await resolveAfter5Seconds();
+        // console.log(result);
+        // schedule(a, 0);
+        // result = await resolveAfter5Seconds();
+        // console.log(result);
+        // schedule(a, 1);
+    }
+
+    function availableTimeStart() {
+        console.log("availabe time started............");
+    }
+
+    var refreshIntervalId;
+    var xval=1;
+    async function getdata() {
+        // for (var i = 0; i < 5; i++) {
+        //     console.log("data logged for switch one");
+        //     var result = await resolveAfter1Seconds();
+        //     console.log(result);
+        // }
+        var updateChart = function (count) {
+            // count = count || 1;
+            // for (var j = 0; j < count; j++) {
+            //     yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
+            //     dps.push({
+            //         x: xVal,
+            //         y: yVal
+            //     });
+            //     xVal++;
+            // }
+            // if (dps.length > dataLength) {
+            //     dps.shift();
+            // }
+            //why without this xval cant be accessed?????.........
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:5002/energy1",
+            }).done(function( o ) {
+                console.log(o)
+                dps.push({
+                    x: xval,
+                    y: o
+                });
+                xval++;
+                console.log(xval);
+                chart.render();
+            });
+
+        };
+        refreshIntervalId=setInterval(function () {
+            updateChart()
+        }, updateInterval);
+    }
+
+    async function startCircuit() {
+        console.log("in C");
+        console.log(new Date().getTime());
+        availableTimeStart();
+        getdata().then(() => console.log("printed all get data ..............."));
+        $("#ex2").TimeCircles().start();
+    }
+    var refreshId;
+    function main() {
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:5002/on1",
+        }).done(function( o ) {
+            console.log(o)
+            schedulerMethod(1).then(() => (console.log("started schedule job..........." + new Date().getTime())));
+        });
+        console.log("hurray");
+        console.log(new Date().getTime());
+        var available = 1;
+        clearInterval(refreshId);
+        startCircuit().then(() => console.log("power print graph job has started returned from print alld ata.............." + available + new Date().getTime()));
+        console.log(new Date().getTime());
+    }
+    function mainStop(){
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:5002/off1",
+        }).done(function( o ) {
+            console.log(o)
+            schedulerMethod(0).then(() => (console.log("started schedule job..........." + new Date().getTime())));
+        });
+        clearInterval(refreshIntervalId);
+        var updateChart = function () {
+            dps.push({
+                x:xval,
+                y:0
+            });
+            xval++;
+            chart.render();
+        }
+        refreshId=setInterval(function () {
+            updateChart()
+        }, updateInterval);
+    }
+
+    $(".example").TimeCircles({ time: {
+            Days: { color: "#C0C8CF" ,show:false},
+            Hours: { color: "#C0C8CF",show:false },
+            Minutes: { color: "#C0C8CF",show:false },
+            Seconds: { color: "#C0C8CF" }
+        },start:false,count_past_zero: false});
+
+    async function scheduleit(){
+        main();
+        result=await resolveAfter5Seconds();
+        mainStop();
+        result=await resolveAfter5Seconds();
+        main();
+        result=await resolveAfter10Seconds();
+        mainStop();
+        result=await resolveAfter10Seconds();
+        main();
+        result=await resolveAfter3Seconds();
+        mainStop();
+        result=await resolveAfter5Seconds();
+        main();
+        result=await resolveAfter3Seconds();
+        mainStop();
+
+    }
+    scheduleit();
+
+</script>
+</body>
+</html>

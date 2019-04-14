@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #bulbOne{
+            width:25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: auto;
+            align-items: center;
+            background-color: aliceblue;
+            padding: 20px;
+        }
+        #bulbOne img{
+            padding-bottom: 20px;
+        }
+        #bulbOne div{
+            padding-bottom: 20px;
+        }
+        #btn{
+            display:flex;
+        }
+        input{
+            width: 100px;
+            height: 40px;
+            font-size: 30px;
+        }
+        body{
+            background-color: cornsilk;
+            position: absolute;
+            width:100%;
+            top:0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            align-self: center;
+        }
+        .example{
+            width:150px;
+            height:150px;
+            padding-top:15px;
+        }
+        #timers{
+            display:flex;
+            justify-content: center;
+        }
+        p{
+            align:center;
+            margin:auto;
+            padding: auto;
+        }
+        #bulbs{
+            display: flex;
+            justify-content: space-between;
+            margin: auto;
+            align-items: center;
+            padding: 20px;
+        }
+
+
+        #bulbTwo{
+            width:25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: auto;
+            align-items: center;
+            background-color: aliceblue;
+            padding: 20px;
+        }
+        #bulbTwo img{
+            padding-bottom: 20px;
+        }
+        #bulbTwo div{
+            padding-bottom: 20px;
+        }
+        #bulbThree{
+            width:25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: auto;
+            align-items: center;
+            background-color: aliceblue;
+            padding: 20px;
+        }
+        #bulbThree img{
+            padding-bottom: 20px;
+        }
+        #bulbThree div{
+            padding-bottom: 20px;
+        }
+        #bulbFour{
+            width:25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: auto;
+            align-items: center;
+            background-color: aliceblue;
+            padding: 20px;
+        }
+        #bulbFour img{
+            padding-bottom: 20px;
+        }
+        #bulbFour div{
+            padding-bottom: 20px;
+        }
+        #timersB{
+            display:flex;
+            justify-content: center;
+        }
+        #timersC{
+            display:flex;
+            justify-content: center;
+        }
+    </style>
+    <script src="jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="TimeCircles.js"></script>
+    <link href="TimeCircles.css" rel="stylesheet">
+</head>
+<body>
+<center><h1>Demo</h1></center>
+<div id="bulbs">
+    <div id="bulbOne">
+        <img id="myImageA" src="pic_bulboff.gif" width="100" height="180">
+        
+        <div id="chartContainer" style="height: 320px; width:100%;">fgh</div>
+        
+    </div>
+    <div id="bulbTwo">
+        <img id="imageB" src="pic_bulboff.gif" width="100" height="180">
+        
+        <div id="chartContainerB" style="height: 320px; width:100%;">fgh</div>
+        
+    </div>
+    <div id="bulbThree">
+        <img id="myImagec" src="pic_bulboff.gif" width="100" height="180">
+        
+        <div id="chartContainerC" style="height: 320px; width:100%;">fgh</div>
+        
+    </div>
+    <div id="bulbFour">
+        <img id="myImagec" src="pic_bulboff.gif" width="100" height="180">
+        
+        <div id="chartContainerC" style="height: 320px; width:100%;">fgh</div>
+        
+    </div>
+
+</div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script>
+    var h1=document.getElementsByTagName("h1");
+    h1[0].onclick=function(){
+        clearInterval(refreshId);
+        $("#ex2").TimeCircles().stop();
+    }
+    var dps = []; // dataPoints
+    var dpsB = []; // dataPoints
+    var dpsC = []; // dataPoints
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+        title: {
+            text: "Power Load"
+        },
+        axisY: {
+            includeZero: true
+        },
+        data: [{
+            type: "line",
+            dataPoints: dps
+        }]
+    });
+
+    var chartB = new CanvasJS.Chart("chartContainerB", {
+        title: {
+            text: "Power Load"
+        },
+        axisY: {
+            includeZero: true
+        },
+        data: [{
+            type: "line",
+            dataPoints: dpsB
+        }]
+    });
+
+    var chartC = new CanvasJS.Chart("chartContainerC", {
+        title: {
+            text: "Power Load"
+        },
+        axisY: {
+            includeZero: true
+        },
+        data: [{
+            type: "line",
+            dataPoints: dpsC
+        }]
+    });
+
+var chartD = new CanvasJS.Chart("chartContainerD", {
+        title: {
+            text: "Power Load"
+        },
+        axisY: {
+            includeZero: true
+        },
+        data: [{
+            type: "line",
+            dataPoints: dpsD
+        }]
+    });
+
+    
+
+    var xVal = 0;
+    var yVal = 100;
+    var updateInterval = 1000;
+    var dataLength = 20; // number of dataPoints visible at any point
+    dps.push({
+        x: 0,
+        y: 0
+    });
+    chart.render();
+    chartB.render();
+    chartC.render();
+    chartD.render();
+
+    // function changeImageA() {
+    //     var image = document.getElementById('myImageA');
+    //     if (image.src.match("bulbon")) {
+    //         image.src = "pic_bulboff.gif";
+    //     } else {
+    //         image.src = "pic_bulbon.gif";
+    //     }
+    // }
+
+
+    var xval=0
+    async function getdata() {
+        var updateChart = function (count) {
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:5000/receiver",
+            }).done(function( o ) {
+                console.log(o)
+                dps.push({
+                    x: xval,
+                    y: o[0]
+                });
+                dpsB.push({
+                    x: xval,
+                    y: o[1]
+                });
+                dpsC.push({
+                    x: xval,
+                    y: o[2]
+                });
+                dpsD.push({
+                    x: xval,
+                    y: o[2]+o[1]+o[0]
+                });
+                xval++;
+                console.log(xval);
+                chart.render();
+                chartB.render();
+                chartC.render();
+            });
+
+        };
+        refreshIntervalId=setInterval(function () {
+            updateChart()
+        }, 1000);
+    }
+
+    getdata();
+
+</script>
+</body>
+</html>
